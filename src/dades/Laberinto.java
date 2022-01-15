@@ -67,39 +67,50 @@ public class Laberinto {
 
     
     // X regula alcada, a dalt de tot es 0 i a baix de tot es alto!!
-    public static Posicion[] GetSuccessorsBeta(Posicion actual, Laberinto lab){
-        if(actual.getX() == 0){
-            if(actual.getY() == 0){
-                Posicion [] retorn = {actual.getInferior(), actual.getDerecha()};
-                return retorn;
-            } else if (actual.getY() == lab.getAncho()){
-                Posicion [] retorn = {actual.getInferior(), actual.getIzquierda()};
-                return retorn;
-            } else {
-                Posicion [] retorn = {actual.getInferior(),  actual.getIzquierda(), actual.getDerecha()};
-                return retorn;
-            }
-        } else if(actual.getX() == lab.getAlto()){
-            if(actual.getY() == 0){
-                Posicion [] retorn = {actual.getSuperior(), actual.getDerecha()};
-                return retorn;
-            } else if (actual.getY() == lab.getAncho()){
-                Posicion [] retorn = { actual.getIzquierda(), actual.getSuperior()};
-                return retorn;
-            } else {
-                Posicion [] retorn = {actual.getIzquierda(), actual.getSuperior(), actual.getDerecha()};
-                return retorn;
-            }
-        } else if(actual.getY() == 0){
-            Posicion [] retorn = { actual.getInferior(), actual.getSuperior(),actual.getDerecha()};
-            return retorn;
-        } else if (actual.getY() == lab.getAncho()){
-            Posicion [] retorn = {actual.getInferior(), actual.getIzquierda(), actual.getSuperior()};
-            return retorn;
-        } else {
-            Posicion [] retorn = {actual.getInferior(), actual.getIzquierda(), actual.getSuperior(), actual.getDerecha()};
-            return retorn;
+    public static Posicion GetSuccessorsGreedy(Posicion actual, Laberinto lab){
+        boolean [] valids = {false, false, false, false}; //inf, sup, izq, der
+        int conta = 0;
+        if(actual.getX() != lab.getAlto() && ! lab.getAt(actual.getInferior()).equals("NA")) {
+            valids[0] = true;
+            conta ++;
         }
+        if(actual.getX() != 0  && ! lab.getAt(actual.getSuperior()).equals("NA")){
+            valids[1] = true;
+            conta ++;
+        }
+        if(actual.getY() != 0  && ! lab.getAt(actual.getIzquierda()).equals("NA")){
+            valids[2] = true;
+            conta ++;
+        }
+        if(actual.getY() != lab.getAncho()  && ! lab.getAt(actual.getDerecha()).equals("NA")){
+            valids[3] = true;
+            conta ++;
+        }
+        Posicion [] retorn = new Posicion[conta];
+        conta = 0;
+        for(int i = 0; i < 4; i++){
+            if(valids[i]){
+                if(i == 0){
+                    retorn[conta] = actual.getInferior();
+                    retorn[conta].setScore(actual.combinaScore(lab.getAt(actual.getInferior())));
+                    conta ++;
+                } else if(i == 1){
+                    retorn[conta] = actual.getSuperior();
+                    retorn[conta].setScore(actual.combinaScore(lab.getAt(actual.getSuperior())));
+                    conta ++;
+                } else if(i == 2){
+                    retorn[conta] = actual.getIzquierda();
+                    retorn[conta].setScore(actual.combinaScore(lab.getAt(actual.getIzquierda())));
+                    conta ++;
+                } else if(i == 3){
+                    retorn[conta] = actual.getDerecha();
+                    retorn[conta].setScore(actual.combinaScore(lab.getAt(actual.getDerecha())));
+                    conta ++;
+                }
+            }
+        }
+        sort(retorn, conta);
+        return retorn[conta];
     }
     
     // X regula alcada, a dalt de tot es 0 i a baix de tot es alto!!

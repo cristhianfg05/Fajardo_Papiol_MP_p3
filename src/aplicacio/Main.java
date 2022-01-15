@@ -16,7 +16,7 @@ public class Main {
             Laberinto lab = new Laberinto(laberint, 6, 4,new Posicion(3,0), new Posicion(1,6));
             SolucionadorLaberinto solv = new SolucionadorLaberinto(lab);
             System.out.print("COMENZAMOS\n");
-            System.out.println("Ho he resolt dfs: "+ solv.solveDfs() );
+            System.out.println("Ho he resolt greedy: "+ solv.greddy() );
         }
         
     }
