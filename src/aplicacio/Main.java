@@ -1,5 +1,9 @@
 package aplicacio;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 /**
 *
 * @author Cristhian y Arnau
@@ -10,31 +14,43 @@ import dades.SolucionadorLaberinto;
 
 public class Main {
 
-	public static void main(String[] args) {
-		String[][] laberint = { { "NA", "NA", "-1", "/2", "+1", "NA", "NA" },
-				{ "-7", "NA", "*3", "NA", "+2", "+1", "-1" }, { "+4", "*2", "-8", "+3", "+7", "-1", "+4" },
-				{ "+9", "-2", "+5", "-1", "+9", "+8", "-2" }, { "/1", "*7", "NA", "NA", "+4", "NA", "NA" } };
+	public static void main(String[] args) throws FileNotFoundException {
 
-		String[][] laberint2 = { { "NA", "NA", "-1", "/2", "+1", "NA", "NA" },
-				{ "-7", "NA", "*3", "NA", "+2", "+1", "-1" }, { "+4", "*2", "-8", "+3", "+7", "-1", "+4" },
-				{ "+9", "-2", "+5", "-1", "+9", "+8", "-2" }, { "/1", "*7", "NA", "NA", "+4", "NA", "NA" } };
+		File file = new File("fitxer.txt");
+		Scanner lector = new Scanner(file);
+		Laberinto[] listaLab = new Laberinto[3];
+		int contadorLaberintos = 0;
+		while (lector.hasNext()) {
+			String[] atributos = lector.nextLine().split(", ");
+			int alto = Integer.parseInt(atributos[0]) - 1;
+			int ancho = Integer.parseInt(atributos[1]) - 1;
+			int xposicionentrada = Integer.parseInt(atributos[2]);
+			int yposicionentrada = Integer.parseInt(atributos[3]);
+			int xposicionsalida = Integer.parseInt(atributos[4]);
+			int yposicionsalida = Integer.parseInt(atributos[5]);
+			String[][] laberinto = new String[alto + 1][ancho + 1];
+			int contadorFila = 0;
+			while (lector.hasNextLine() && contadorFila <= alto) {
+				atributos = lector.nextLine().split(", ");
+				for (int i = 0; i <= ancho; i++) {
+					laberinto[contadorFila][i] = atributos[i];
+				}
+				contadorFila++;
 
-		String[][] laberint3 = { { "NA", "NA", "-1", "/2", "+1", "NA", "NA" },
-				{ "*3", "NA", "*3", "NA", "+2", "+1", "-1" }, { "+53", "-5", "-8", "+3", "+7", "-1", "+4" },
-				{ "+129", "-2", "+5", "-1", "+9", "+8", "-2" }, { "/1", "-7", "NA", "NA", "+4", "NA", "NA" } };
-		Laberinto lab = new Laberinto(laberint3, 6, 4, new Posicion(3, 0), new Posicion(1, 6));
-
-		System.out.print("COMENZAMOS\n");
-
-		Laberinto lab2 = new Laberinto(7, 7);
-		for (int i = 0; i <= lab2.getAlto(); i++) {
-			for (int j = 0; j <= lab2.getAncho(); j++) {
-				System.out.print(lab2.getLaberinto()[i][j] + " ");
 			}
-			System.out.println();
+
+			listaLab[contadorLaberintos] = new Laberinto(laberinto, ancho, alto,
+					new Posicion(xposicionentrada, yposicionentrada), new Posicion(xposicionsalida, yposicionsalida));
+			contadorLaberintos++;
 		}
-		SolucionadorLaberinto solv = new SolucionadorLaberinto(lab2);
+
+
+
+		SolucionadorLaberinto solv = new SolucionadorLaberinto(listaLab[1]);
+		System.out.print("COMENZAMOS\n");
 		System.out.println("Ho he resolt greedy: " + solv.solveDfs());
+		lector.close();
+
 	}
 
 }
