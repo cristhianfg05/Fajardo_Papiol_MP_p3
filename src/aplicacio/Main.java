@@ -49,6 +49,7 @@ public class Main {
 			SolucionadorLaberinto solv = new SolucionadorLaberinto(listaLab[i]);
 			System.out.print("COMENZAMOS con el laberinto con dfs/backtraking"+i+"\n");
 			System.out.println("Ho he resolt dfs/backtraking: " + solv.solveDfs()+"\n");
+			solv = new SolucionadorLaberinto(listaLab[i]);
 			System.out.print("COMENZAMOS con el laberinto con greddy "+i+"\n");
 			System.out.println("Ho he resolt greddy: " + solv.greddy());
 			System.out.println();
