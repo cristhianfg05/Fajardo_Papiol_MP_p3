@@ -43,13 +43,18 @@ public class Main {
 					new Posicion(xposicionentrada, yposicionentrada), new Posicion(xposicionsalida, yposicionsalida));
 			contadorLaberintos++;
 		}
-
-
-
-		SolucionadorLaberinto solv = new SolucionadorLaberinto(listaLab[1]);
-		System.out.print("COMENZAMOS\n");
-		System.out.println("Ho he resolt greedy: " + solv.solveDfs());
 		lector.close();
+
+		for(int i = 0; i<contadorLaberintos; i++) {
+			SolucionadorLaberinto solv = new SolucionadorLaberinto(listaLab[i]);
+			System.out.print("COMENZAMOS con el laberinto con dfs/backtraking"+i+"\n");
+			System.out.println("Ho he resolt dfs/backtraking: " + solv.solveDfs()+"\n");
+			System.out.print("COMENZAMOS con el laberinto con greddy "+i+"\n");
+			System.out.println("Ho he resolt greddy: " + solv.greddy());
+			System.out.println();
+		}
+		
+		
 
 	}
 
