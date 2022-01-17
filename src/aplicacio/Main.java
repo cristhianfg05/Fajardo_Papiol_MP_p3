@@ -18,7 +18,7 @@ public class Main {
 
 		File file = new File("fitxer.txt");
 		Scanner lector = new Scanner(file);
-		Laberinto[] listaLab = new Laberinto[3];
+		Laberinto[] listaLab = new Laberinto[10];
 		int contadorLaberintos = 0;
 		while (lector.hasNext()) {
 			String[] atributos = lector.nextLine().split(", ");
